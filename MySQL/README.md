@@ -3,6 +3,7 @@
 ## Commands
 
 **Skip slave event**
+
 Make sure the event skipped isn't going to cause data loss
 
 ```sql
@@ -59,7 +60,9 @@ mysql -e "SHOW PROCESSLIST" | awk '{print $3}' | cut -f1 -d: | sort | uniq -c | 
 **Database Sizes**
 
 ```sql
-SELECT table_schema AS "Database name", SUM(data_length + index_length) / 1024 / 1024 AS "Size (MB)" FROM information_schema.TABLES GROUP BY table_schema;
+SELECT table_schema AS "Database name", SUM(data_length + index_length) / 1024 / 1024 AS "Size (MB)" 
+FROM information_schema.TABLES 
+GROUP BY table_schema;
 ```
 
 **Top Table Sizes**
@@ -78,7 +81,14 @@ LIMIT 10;
 **Table Fragmentation**
 
 ```sql
-SELECT concat(table_schema,'.',table_name) as Database_Tablename, concat(round(table_rows/1000000,2),'M') ROWS, concat(round(data_length/(1024*1024*1024),2),'G') DATA_SIZE, concat(round(index_length/(1024*1024*1024),2),'G') INDEX_SIZE, concat(round((data_length+index_length)/(1024*1024*1024),2),'G') TOTAL_SIZE, round(index_length/data_length,2) idxfrac  FROM information_schema.TABLES ORDER BY data_length+index_length;
+SELECT concat(table_schema,'.',table_name) as Database_Tablename, 
+	   concat(round(table_rows/1000000,2),'M') ROWS, 
+	   concat(round(data_length/(1024*1024*1024),2),'G') DATA_SIZE, 
+	   concat(round(index_length/(1024*1024*1024),2),'G') INDEX_SIZE, 
+	   concat(round((data_length+index_length)/(1024*1024*1024),2),'G') TOTAL_SIZE, 
+	   round(index_length/data_length,2) idxfrac  
+FROM information_schema.TABLES 
+ORDER BY data_length+index_length;
 ```
 
 **Config Editor**
@@ -92,6 +102,7 @@ mysql --login-path=kmarkwardt  # Login using path
 ```
 
 **Binary Log Cleanup Script**
+
 Used this when disk space was filling up due to the slave being very far behind and the binary logs were filling up space
 
 ```bash
@@ -118,7 +129,9 @@ done
 ```
 
 **Get new connection per second counts and MySQL execution time**
+
 Had a problem with a server where the connection time was being impacted and the number of connections on the box was fluctuating greatly.  Used this to track some of the details
+
 ```bash
 #!/bin/bash
 LAST_COUNT=0
