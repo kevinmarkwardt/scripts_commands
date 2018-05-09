@@ -1,7 +1,8 @@
 # Scripts Review
 
 ## Commands
-Loop through a list of machiens in the list_hosts file and test for SSH access
+
+Loop through a list of machines in the list_hosts file and test for SSH access
 
 ```bash
 for host in `cat list_hosts`;do ssh -q -o "BatchMode=yes" kevin.markwardt@$host "echo 2>&1" && echo "$host SSH OK"  || echo "$host SSH NOT OK"; done;
